@@ -1,0 +1,60 @@
+<div class="row col-md-10 col-md-offset-1">
+  <h1>Friends</h1>
+  <input type="text" ng-model="filter_name" placeholder="filter">
+
+  <!-- display all friends -->
+  <table class="table table-hover">
+    <thead>
+      <tr class="active">
+        <th>Name:</th>
+        <th>Age:</th>
+        <th>Action:</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="friend in friends | filter: filter_name">
+        <td>
+          <div ng-hide="edit[$index]" >{{friend.name}}</div>
+          <div ng-show="edit[$index]" ><input type="text" ng-model="master.name" name="name"></div>
+        </td>
+
+        <td>
+          <div ng-hide="edit[$index]" >{{friend.age}}</div>
+          <div ng-show="edit[$index]" ><input type="text" ng-model="master.age" name="age"></div>
+        </td>
+        <td>
+          <button type="submit" class="btn btn-success btn-xs ng-hide" ng-hide="edit[$index]" ng-click="edit($index)">Edit</button>
+          <button type="submit" class="btn btn-info btn-xs ng-hide" ng-hide="edit[$index]"><a href="#/friend/{{friend._id}}">Show</a></button>
+          <button type="submit" class="btn btn-primary btn-xs ng-hide" ng-show="edit[$index]" ng-click="update(master, $index)">Save</button>
+          <button type="submit" class="btn btn-default btn-xs ng-hide" ng-show="edit[$index]" ng-click="cancelEdit($index)">Cancel</button>
+
+          <button ng-click="delete(friend._id)" type="submit" class="btn btn-danger btn-xs">Remove Friend</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+
+  <h1>Add a Friend</h1>
+  <p class="alert alert-danger" ng-show="warning">{{warning}}</p>
+  <form name="myForm" novalidate class="col-md-8">
+    <div class="form-group">
+      <label>Name:</label>
+      <input class="form-control" name="myName" type="text" ng-model="new_friend.name" placeholder="name" required>
+    </div>
+    <div ng-messages="myForm.myName.$error" ng-if="submitted" style="color:red" role="alert">
+      <div ng-message="required">Please enter a valid name.</div>
+    </div>
+
+    <div class="form-group">
+      <label>Age:</label>
+      <input class="form-control" name="myAge" type="text" ng-model="new_friend.age" placeholder="age" required>
+    </div>
+    <div ng-messages="myForm.myAge.$error" ng-if="submitted" style="color:red" role="alert">
+      <div ng-message="required">Please enter a valid age.</div>
+    </div>
+
+    <input type="submit" ng-click="addFriend()" class="btn btn-primary pull-right" value="Add Friend">
+  </form>
+
+</div>
